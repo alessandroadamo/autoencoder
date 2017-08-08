@@ -1,2 +1,3 @@
-# autoencoder
-TensorFlow autoencoder neural network for features extraction
+# Autoencoder
+
+TensorFlow autoencoder neural network for features extraction.
