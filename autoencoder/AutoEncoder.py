@@ -89,10 +89,12 @@ class AutoEncoder(BaseEstimator, TransformerMixin):
             "l1_penalty parameter must be None or greater than 0.0"
         assert self.l2_penalty is None or self.l2_penalty > 0.0, \
             "l2_penalty parameter must be None or greater than 0.0"
+        assert (self.beta is None and self.rho in not None) or (self.beta is not None and self.rho is None), \
+            "beta and rho must be both None or real"
         assert self.beta is None or self.rho > 0.0, \
             "beta parameter must be None or greater than 0.0"
         assert self.rho is None or (0.0 < self.rho < 1.0), \
-            "rho parameter must be None or greater than 0.0"
+            "rho parameter must be None or in the interval (0.0, 1.0)"
         assert 0.0 < self.dropout_keep_prob <= 1.0, \
             "dropout_keep_prob parameter must be greater than 0.0 and less then 1.0"
 
@@ -108,7 +110,7 @@ class AutoEncoder(BaseEstimator, TransformerMixin):
             tf.set_random_seed(self.random_state)
 
         # tf Graph input (only pictures)
-        x = tf.placeholder(tf.float32, [10, n_features])
+        x = tf.placeholder(tf.float32, [None, n_features])
         self._x = x
 
         # encode
